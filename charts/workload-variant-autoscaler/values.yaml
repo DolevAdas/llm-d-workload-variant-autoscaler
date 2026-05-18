@@ -100,9 +100,9 @@ llmd:
 va:
   enabled: true
   # accelerator: Optional. If not specified, it will be auto-discovered
-  # from scale target. If specified, it will be used as fall-back value if it can't 
-  # be discovered.
-  accelerator: H100
+  # from scale target. If specified, it will be used as fall-back value if it can't
+  # be discovered. Valid values: nvidia, amd, cpu
+  accelerator: nvidia
   # Cost per replica in arbitrary units (higher = more expensive to scale)
   # Used by saturation analysis to weight scaling decisions across variants
   # Example: H100=10.0, A100=8.0, L40S=5.0 (relative GPU costs)

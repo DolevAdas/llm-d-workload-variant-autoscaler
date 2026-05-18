@@ -96,7 +96,8 @@ deploy_wva_controller() {
         --set wva.metrics.secure="$WVA_METRICS_SECURE" \
         --set wva.scaleToZero="$ENABLE_SCALE_TO_ZERO" \
         ${CONTROLLER_INSTANCE:+--set wva.controllerInstance=$CONTROLLER_INSTANCE} \
-        ${POOL_GROUP:+--set wva.poolGroup=$POOL_GROUP}
+        ${POOL_GROUP:+--set wva.poolGroup=$POOL_GROUP} \
+        ${ACCELERATOR_TYPE:+--set va.accelerator=$ACCELERATOR_TYPE}
 
     # Wait for WVA to be ready
     log_info "Waiting for WVA controller to be ready..."
