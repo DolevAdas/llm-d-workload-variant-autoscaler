@@ -95,6 +95,20 @@ EOF
     log_info "Installing WVA CRDs..."
     kubectl apply -k "$WVA_PROJECT/config/base/crd/"
 
+    # When namespace-scoped, restrict the controller to its own namespace only.
+    # Copy (not symlink) the patch into the temp overlay — kustomize v5 blocks symlinks
+    # that point outside the kustomize root directory.
+    if [ "$NAMESPACE_SCOPED" = "true" ]; then
+        cp "$WVA_PROJECT/config/manager/namespace-scoped-patch.yaml" "$tmp_overlay/namespace-scoped-patch.yaml"
+        cat >> "$tmp_overlay/kustomization.yaml" <<'PATCH'
+patches:
+- target:
+    kind: Deployment
+    name: controller-manager
+  path: ./namespace-scoped-patch.yaml
+PATCH
+    fi
+
     log_info "Applying Kustomize overlay: $kustomize_overlay"
     kubectl apply -k "$tmp_overlay"
 
